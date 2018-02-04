@@ -1,0 +1,19 @@
+{
+    "name": "yaf/api",
+    "description": "a yaf project",
+    "type": "api project",
+    "require": {
+        "php": "7.2.0",
+        "raulfraile/ladybug": "^1.0",
+        "symfony/var-dumper": "^4.0"
+    },
+    "require-dev": {
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "kiwi520",
+            "email": "roczhmg@163.com"
+        }
+    ]
+}

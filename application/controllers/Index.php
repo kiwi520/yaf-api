@@ -1,11 +1,12 @@
 <?php
+use Yaf\Controller_Abstract;
 /**
  * @name IndexController
  * @author vagrant
  * @desc 默认控制器
  * @see http://www.php.net/manual/en/class.yaf-controller-abstract.php
  */
-class IndexController extends Yaf_Controller_Abstract {
+class IndexController extends Controller_Abstract {
 
 	/** 
      * 默认动作
@@ -13,6 +14,7 @@ class IndexController extends Yaf_Controller_Abstract {
      * 对于如下的例子, 当访问http://yourhost/demo/index/index/index/name/vagrant 的时候, 你就会发现不同
      */
 	public function indexAction($name = "Stranger") {
+        ladybug_dump("test composer");
 		//1. fetch query
 		$get = $this->getRequest()->getQuery("get", "default value");
 
