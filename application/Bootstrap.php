@@ -4,6 +4,7 @@ use Yaf\Bootstrap_Abstract;
 use Yaf\Dispatcher;
 use Yaf\Loader;
 use Yaf\Registry;
+use Yaf\Route_Interface;
 /**
  * @name Bootstrap
  * @author vagrant
@@ -34,12 +35,21 @@ class Bootstrap extends Bootstrap_Abstract {
 
 	public function _initRoute(Dispatcher $dispatcher) {
 		//在这里注册自己的路由协议,默认使用简单路由
-        // Api routes
-//        $routes = new YafConfigIni(APPLICATION_PATH . "/conf/api/route_v1.ini", "common");
-//        if ($routes->api) {
-//            $router = YafDispatcher::getInstance()->getRouter();
-//            $router->addConfig($routes->api);
-//        }
+        //创建一个路由协议实例
+//        $router = $dispatcher::getInstance()->getRouter();
+////        $route = new Route_Interface('user/reg/:username',
+////        ['controller'=>'user','action' => 'reg']);
+////        //使用路由器装载路由协议
+////        $router->addRoute('user_reg', $route);
+//
+//        $route  = new \Yaf\Route\Rewrite(
+//            "reg/:username",
+//            [
+//                'controller'=>'user',
+//                'action' => 'reg'
+//            ]
+//        );
+//        $router->addRoute('userReg', $route);
 	}
 	
 	public function _initView(Dispatcher $dispatcher) {

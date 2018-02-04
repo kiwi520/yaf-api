@@ -14,7 +14,6 @@ class IndexController extends Controller_Abstract {
      * 对于如下的例子, 当访问http://yourhost/demo/index/index/index/name/vagrant 的时候, 你就会发现不同
      */
 	public function indexAction($name = "Stranger") {
-        ladybug_dump("test composer");
 		//1. fetch query
 		$get = $this->getRequest()->getQuery("get", "default value");
 
