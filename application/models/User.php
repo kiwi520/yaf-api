@@ -18,6 +18,12 @@ class UserModel
         $this->_db = new PDO("mysql:host=192.168.33.10;dbname=yaf;","homestead","secret");
     }
 
+    /**
+     * 登录注册
+     * @param $userName
+     * @param $passwd
+     * @return bool|string
+     */
     public function register($userName,$passwd) {
         $query = $this->_db->prepare("SELECT count(*) AS u FROM `user` WHERE `name` = :names");
         $query->execute(["names"=>$userName]);
@@ -39,7 +45,6 @@ class UserModel
             $userInster = $this->_db->prepare("INSERT INTO  user(`name`,`passwd`) VALUES (:names,:pwd)");
             $userInster->execute(["names"=>$userName,"pwd"=>$passwd]);
             $count = $userInster->fetchAll();
-            print_r($count);
             if($count > 0 ){
                 return "注册成功";
             }
@@ -49,6 +54,32 @@ class UserModel
 
         return false;
     }
+
+    public function login($userName,$passwd){
+//            var_dump($userName);
+            $login_query = $this->_db->prepare("SELECT `passwd`,`id` FROM `user` WHERE `name` = :namess");
+            $login_query->execute(["namess"=>$userName]);
+
+            $rest = $login_query->fetchAll();
+
+//            var_dump($rest);
+            if( !$rest || count($rest) != 1 ){
+                $this->errno = -1003;
+                $this->errmsg = "没有此用户";
+
+                return false;
+            }
+
+            $userInfo = $rest[0];
+            if( $this->_decrypt_decrypt($userInfo["passwd"] ) != $passwd){
+                $this->errno = -1004;
+                $this->errmsg = "密码错误";
+                return false;
+            }
+
+            return intval($userInfo[1]);
+    }
+
 
     private function _password_generate($passwd){
         $passwd = $this->_encrypt($passwd,$this->_key);

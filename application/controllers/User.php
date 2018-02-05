@@ -49,4 +49,51 @@ class UserController extends Controller_Abstract
 
         return false;
     }
+
+
+    public function loginAction(){
+        $submit = $this->getRequest()->getQuery("submit","0");
+        if( $submit != "login") {
+            echo json_encode([
+                "errno" => -1001,
+                "errmsg" => "请通过正确渠道提交"
+            ]);
+            return false;
+        }
+
+        // 获取参数
+
+        $username = $this ->getRequest()->getPost("name",false);
+        $passwd = $this -> getRequest()->getPost("password",false);
+
+        if( !$username || !$passwd) {
+            echo json_encode([
+                "errno" => -1002,
+                "errmsg" => "用户名与密码必须传递"
+            ]);
+            return false;
+        }
+
+        $model = new UserModel();
+        if ($uid = $model ->login(trim($username),trim($passwd))){
+
+            session_start();
+            $_SESSION["user_token"] = md5("sal".$_SERVER['REQUEST_TIME'].$uid);
+            $_SESSION["user_token_time"] = $_SERVER['REQUEST_TIME'];
+            $_SESSION["user_id"] = $uid;
+            echo json_encode([
+                "errno"=>"0",
+                "errmsg"=>"",
+                "data"=>[
+                    "name"=>$username
+                ]
+            ]);
+        } else {
+            echo json_encode([
+                "errno"=>$model->errno,
+                "errmsg"=>$model->errmsg,
+            ]);
+        }
+        return false;
+    }
 }
